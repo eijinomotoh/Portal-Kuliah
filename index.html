@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portal Kuliah</title>
+<style>
+:root{--bg:#ffffff;--card:#fff;--tx:#18202f;--mut:#667085;--bd:#e1e5ee;--ac:#52251C;--act:#fff;--soft:#f1e6e3;--ok:#15803d;--bad:#c2410c;--warn:#b45309;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:#52251C;color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+[hidden]{display:none!important}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.brand{font-weight:700;font-size:18px;color:#fff}
+.onbg,.onbg .small{color:#fff}
+.onbg .btn.ghost,header.top .btn.ghost{color:#fff;border-color:rgba(255,255,255,.7)}
+header.top .who,header.top .who .small{color:#fff}
+.who{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:14px;text-align:right}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;box-shadow:0 6px 16px rgba(0,0,0,.55)}
+input,select,textarea{width:100%;margin:0 0 10px;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+textarea{resize:vertical;min-height:70px}
+.desc{white-space:pre-wrap;margin:0 0 8px}
+.folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.folder{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:14px;padding:14px;font:inherit;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.55)}
+.folder:hover{border-color:var(--ac);background:var(--soft)}
+.folder .ico{font-size:28px;line-height:1.2}
+select.mv{width:auto;margin:0;padding:6px 8px;font-size:13px}
+label{display:block;font-size:13px;color:var(--mut);margin-bottom:4px}
+.btn{background:var(--ac);color:var(--act);border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd);font-weight:500;padding:6px 12px}
+.welcome{max-width:380px;margin:8vh auto 16px;text-align:center;color:#fff;font-size:30px;font-weight:700;letter-spacing:.3px;text-shadow:0 2px 6px rgba(0,0,0,.45)}
+.auth{max-width:380px;margin:0 auto}
+.auth h1{margin:0 0 4px;font-size:22px}
+.sub{margin:0 0 14px;color:var(--mut)}
+.tabs{display:flex;gap:6px;margin-bottom:14px}
+.tab{flex:1;padding:8px;border:1px solid var(--bd);background:#fff;color:var(--mut);border-radius:10px;font:inherit;cursor:pointer}
+.tab.on{background:var(--soft);color:var(--ac);border-color:var(--ac);font-weight:600}
+.err{color:var(--bad);margin:0 0 10px;min-height:1em;font-size:14px}
+.nav{display:flex;gap:6px;margin-bottom:14px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
+.chip{flex:none;padding:7px 12px;border-radius:999px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--ac);color:var(--act);border-color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.grid h3{margin:0 0 8px;font-size:15px}
+.small{font-size:13px;color:var(--mut);margin:2px 0}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.row{grid-template-columns:1fr}}
+.b{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--soft);color:var(--ac)}
+.b.t{background:transparent;border:1px solid var(--bd);color:var(--mut)}
+.b.ok{border-color:var(--ok);color:var(--ok)}.b.late{border-color:var(--bad);color:var(--bad)}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.item{margin-bottom:10px}.item h3{margin:0 0 6px;font-size:16px}
+.item a{color:var(--ac);word-break:break-all}
+.slot{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;margin-top:8px}
+.slot i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--ac);color:var(--act);font-style:normal;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.day.now{border:2px solid var(--ac)}
+.day .head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.day .head h3{margin:0}
+.dtitle{margin:0 0 10px;color:#fff;font-size:24px}
+.dash{padding:0;margin-bottom:14px}
+.dash .hi{padding:16px 18px;border-bottom:1px solid var(--bd)}
+.dash .hi>div:first-child{font-weight:700}
+.dash .dbody{padding:16px 18px 4px}
+.dash .lab{color:var(--mut);margin:0 0 14px}
+.dc{margin-bottom:16px}
+.dc h4{margin:0 0 4px;font-size:17px;color:var(--ac)}
+.empty{text-align:center;color:var(--mut);padding:24px}
+.note{font-size:12px;color:rgba(255,255,255,.85);margin-top:18px;text-align:center}
+.nilai{width:90px;margin:0 8px 0 0;padding:6px 8px}
+.btn.off{background:#9ca3af;cursor:not-allowed}
+.pick{display:inline-block;margin:0;font-size:14px;color:var(--act)}.pick input{display:none}
+.line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const COURSES=["Pemrograman Berbasis Platform","AIK 4","Manajemen Proyek Teknologi Informasi","Analisis dan Desain PL","Tata Tulis Ilmiah","Network Penetration Testing","Cyber Security Analysis and Method"];
+const DAYS=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+const RUANG="G.Mahdor R.D 406";
+const JADWAL=[
+  {d:"Senin",c:[
+    {i:2,k:"TI24D",s:"07:30",e:"10:00",r:RUANG},
+    {i:0,k:"TI24D",s:"10:00",e:"12:30",r:RUANG},
+    {i:3,k:"TI24D",s:"13:00",e:"15:30",r:RUANG}]},
+  {d:"Selasa",c:[
+    {i:4,n:"Tata Tulis Ilmiah (Metodologi Penelitian)",k:"TI24D",s:"09:10",e:"11:40",r:"Mahdor D 406"},
+    {i:5,k:"24K3B",s:"13:00",e:"15:30",r:"Mahdor C 305"}]},
+  {d:"Rabu",c:[]},
+  {d:"Kamis",c:[
+    {i:1,n:"AIK 4 (Islam dan Ilmu Pengetahuan)",k:"TI24D",s:"10:00",e:"11:40",r:"Mahdor D 405"}]},
+  {d:"Jumat",c:[
+    {i:6,s:"14:00",e:"15:30"}]}
+];
+const judul=x=>(x.n||COURSES[x.i])+(x.k?" "+x.k:"");
+const pad=n=>String(n).padStart(2,"0");
+const localDT=ms=>{const d=new Date(ms);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes())};
+const waktu=ts=>{const d=new Date(ts);return d.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+", "+pad(d.getHours())+":"+pad(d.getMinutes())};
+const mnt=t=>{const [a,b]=t.split(":");return +a*60+ +b};
+const rentang=x=>x.s?x.s+":00 s/d "+x.e+":00":"";
+const MEET=16,MAXFILE=1024*1024;
+const mem={};
+const st={
+  get(k,d){if(k in mem)return mem[k];try{const v=localStorage.getItem(k);if(v!==null){mem[k]=JSON.parse(v);return mem[k]}}catch(e){}return d},
+  set(k,v){mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+};
+function h(tag,props,...kids){
+  const e=document.createElement(tag);
+  for(const k in props||{}){
+    if(k==="class")e.className=props[k];
+    else if(k.slice(0,2)==="on")e.addEventListener(k.slice(2),props[k]);
+    else e.setAttribute(k,props[k]);
+  }
+  kids.flat().forEach(c=>{if(c!=null&&c!==false)e.append(c)});
+  return e;
+}
+async function hash(s){
+  try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("lms1:"+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+  catch(e){return btoa(unescape(encodeURIComponent(s)))}
+}
+const kb=n=>n<1024?n+" B":(n/1024).toFixed(0)+" KB";
+const app=document.getElementById("app");
+let tab="kuliah",tc=-1,mc=-1,sm=-1;
+
+function render(){
+  app.replaceChildren();
+  const s=st.get("lms_session",null),users=st.get("lms_users",{});
+  if(s&&users[s])dash(s,users[s]);else auth();
+}
+
+function auth(){
+  let mode="masuk";
+  const err=h("p",{class:"err",role:"alert"});
+  const name=h("input",{placeholder:"Nama lengkap",autocomplete:"name"});
+  const nim=h("input",{placeholder:"NIM",autocomplete:"username",inputmode:"numeric"});
+  const pass=h("input",{type:"password",placeholder:"Kata sandi",autocomplete:"current-password"});
+  const btn=h("button",{class:"btn",type:"submit"});
+  const modes=["masuk","daftar"];
+  const tabs=modes.map(m=>h("button",{type:"button",class:"tab",onclick:()=>{mode=m;sync()}},m==="masuk"?"Masuk":"Daftar"));
+  function sync(){
+    tabs.forEach((t,i)=>t.classList.toggle("on",modes[i]===mode));
+    name.hidden=mode==="masuk";
+    btn.textContent=mode==="masuk"?"Masuk":"Buat akun";
+    pass.autocomplete=mode==="masuk"?"current-password":"new-password";
+    err.textContent="";
+  }
+  const form=h("form",{class:"card auth",onsubmit:async e=>{
+    e.preventDefault();
+    const u=nim.value.trim(),p=pass.value,users=st.get("lms_users",{});
+    if(!/^[0-9]{6,15}$/.test(u)){err.textContent="NIM harus berupa angka, 6–15 digit.";return}
+    if(p.length<6){err.textContent="Kata sandi minimal 6 karakter.";return}
+    const hs=await hash(u+":"+p);
+    if(mode==="daftar"){
+      const n=name.value.trim();
+      if(!n){err.textContent="Nama lengkap wajib diisi.";return}
+      if(users[u]){err.textContent="NIM sudah terdaftar.";return}
+      users[u]={name:n,hash:hs};st.set("lms_users",users);
+    }else if(!users[u]||users[u].hash!==hs){err.textContent="NIM atau kata sandi salah.";return}
+    st.set("lms_session",u);tab="kuliah";render();
+  }},
+    h("h1",null,"Portal Kuliah"),
+    h("p",{class:"sub"},"Kelola mata kuliah, materi, dan tugas dalam satu tempat."),
+    h("div",{class:"tabs"},tabs),name,nim,pass,err,btn);
+  app.append(h("h1",{class:"welcome"},"Selamat Datang"),form);sync();
+}
+
+const myTasks=u=>st.get("lms_tasks",[]).filter(t=>t.owner===u);
+const myMateri=u=>st.get("lms_materi",[]).filter(m=>m.owner===u);
+
+function dash(u,info){
+  const tasks=myTasks(u);
+  const header=h("header",{class:"top"},
+    h("div",null,h("div",{class:"brand"},"Portal Kuliah")),
+    h("div",{class:"who"},h("div",null,h("div",null,info.name),h("div",{class:"small"},"NIM "+u)),
+      h("button",{class:"btn ghost",onclick:()=>{st.set("lms_session",null);render()}},"Keluar")));
+  const nav=h("div",{class:"nav"},
+    [["kuliah","Mata Kuliah"],["jadwal","Jadwal"],["materi","Materi"],["tugas","Tugas"]].map(([k,l])=>
+      h("button",{class:"tab"+(tab===k?" on":""),onclick:()=>{tab=k;render()}},l)));
+  const view=tab==="kuliah"?vKuliah(u,tasks,info):tab==="jadwal"?vJadwal():tab==="materi"?vMateri(u):vTugas(u,tasks);
+  app.append(header,nav,view,h("p",{class:"note"},"Data tersimpan di browser perangkat ini dan tidak dikirim ke server."));
+}
+
+function vJadwal(){
+  const now=DAYS[new Date().getDay()];
+  return h("div",{class:"grid"},JADWAL.map(j=>
+    h("div",{class:"card day"+(j.d===now?" now":"")},
+      h("div",{class:"head"},h("h3",null,j.d),j.d===now?h("span",{class:"b"},"Hari ini"):null),
+      h("div",{class:"small"},j.c.length?j.c.length+" mata kuliah":"Tidak ada jadwal kuliah"),
+      j.c.map((x,n)=>h("div",{class:"slot"},h("i",null,n+1),
+        h("div",null,h("div",null,judul(x)),
+          h("div",{class:"small"},(x.r||"Ruang belum diisi")+" · "+rentang(x))))))));
+}
+
+// Dashboard: jadwal hari ini mengikuti hari & jam di perangkat
+function vDash(info){
+  const clock=h("div",{class:"small"}),list=h("div",null);
+  const box=h("div",{class:"card dash"},
+    h("div",{class:"hi"},h("div",null,"Hai, "+info.name.toUpperCase()),clock),
+    h("div",{class:"dbody"},h("p",{class:"lab"},"Jadwal Kuliah Hari ini:"),list));
+  function refresh(){
+    const d=new Date(),nm=d.getHours()*60+d.getMinutes();
+    clock.textContent=DAYS[d.getDay()]+", "+d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})
+      +" · "+pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds());
+    const today=JADWAL.find(x=>x.d===DAYS[d.getDay()]),cs=today?today.c:[];
+    list.replaceChildren(...(cs.length?cs.map(x=>{
+      let badge=null;
+      if(x.s){
+        const a=mnt(x.s),b=mnt(x.e);
+        badge=nm<a?h("span",{class:"b"},"Akan datang"):nm<b?h("span",{class:"b ok"},"Sedang berlangsung"):h("span",{class:"b t"},"Selesai");
+      }
+      return h("div",{class:"dc"},
+        h("h4",null,judul(x)),
+        h("div",{class:"small"},x.r||"Ruang belum diisi"),
+        h("div",{class:"small"},x.s?rentang(x):"Jam belum diisi"),
+        badge?h("div",{style:"margin-top:6px"},badge):null);
+    }):[h("p",{class:"small"},"Tidak ada jadwal kuliah hari ini.")]));
+  }
+  refresh();
+  const id=setInterval(()=>{if(!box.isConnected){clearInterval(id);return}refresh()},1000);
+  return box;
+}
+
+function vKuliah(u,tasks,info){
+  const mats=myMateri(u);
+  const grid=h("div",{class:"grid"},COURSES.map((c,i)=>{
+    const ts=tasks.filter(t=>t.course===i),sub=ts.filter(t=>t.file).length;
+    const ns=ts.map(t=>t.nilai).filter(n=>typeof n==="number");
+    const avg=ns.length?(ns.reduce((a,b)=>a+b,0)/ns.length).toFixed(1):"-";
+    return h("div",{class:"card"},
+      h("h3",null,c),
+      h("div",{class:"small"},"Tugas terkumpul: "+sub+" dari "+ts.length),
+      h("div",{class:"small"},"Rata-rata nilai: "+avg),
+      h("div",{class:"small"},"Materi diposting: "+mats.filter(m=>m.course===i).length),
+      h("div",{class:"acts"},
+        h("button",{class:"btn ghost",onclick:()=>{mc=i;tab="materi";render()}},"Materi"),
+        h("button",{class:"btn ghost",onclick:()=>{tc=i;tab="tugas";render()}},"Tugas")));
+  }));
+  return h("div",null,h("h2",{class:"dtitle"},"Dashboard"),vDash(info),grid);
+}
+
+function vMateri(u){
+  const all=myMateri(u);
+  if(sm<0){
+    const cnt=s=>all.filter(m=>(m.sem||0)===s).length;
+    const list=[1,2,3,4,5,6,7,8];
+    if(cnt(0))list.push(0);
+    return h("div",null,
+      h("p",{class:"small onbg",style:"margin:0 0 10px"},"Pilih folder semester untuk melihat atau memposting materi."),
+      h("div",{class:"folders"},list.map(s=>h("button",{class:"folder",onclick:()=>{sm=s;render()}},
+        h("span",{class:"ico"},"\u{1F4C1}"),h("b",null,s?"Semester "+s:"Tanpa semester"),h("span",{class:"small"},cnt(s)+" materi")))));
+  }
+  return vFolder(u,all);
+}
+
+function vFolder(u,all){
+  const chips=h("div",{class:"chips"},[-1,...COURSES.keys()].map(i=>
+    h("button",{class:"chip"+(mc===i?" on":""),onclick:()=>{mc=i;render()}},i<0?"Semua":COURSES[i])));
+  const fErr=h("p",{class:"err",role:"alert"});
+  const course=h("select",null,COURSES.map((c,i)=>h("option",{value:i},c)));
+  if(mc>=0)course.value=mc;
+  const meet=h("select",null,h("option",{value:""},"Tanpa pertemuan"),Array.from({length:MEET},(_,i)=>h("option",{value:i+1},"Pertemuan "+(i+1))));
+  const title=h("input",{placeholder:"Judul materi, misalnya Pengantar Platform Web",maxlength:"120"});
+  const desc=h("textarea",{placeholder:"Deskripsi atau catatan (opsional)",rows:"3",maxlength:"1000"});
+  const link=h("input",{type:"url",placeholder:"Tautan (opsional), misalnya https://..."});
+  const file=h("input",{type:"file"});
+  const btn=h("button",{class:"btn",type:"submit"},"Posting materi");
+  const form=h("form",{class:"card",onsubmit:e=>{
+    e.preventDefault();fErr.textContent="";
+    const t=title.value.trim(),l=link.value.trim(),d=desc.value.trim(),f=file.files[0];
+    if(!t){fErr.textContent="Judul materi wajib diisi.";return}
+    if(l&&!/^https?:\/\//i.test(l)){fErr.textContent="Tautan harus diawali http:// atau https://";return}
+    if(!l&&!f&&!d){fErr.textContent="Isi minimal salah satu: deskripsi, tautan, atau berkas.";return}
+    if(f&&f.size>MAXFILE){fErr.textContent="Ukuran berkas maksimal 1 MB.";return}
+    const save=data=>{
+      const all=st.get("lms_materi",[]);
+      all.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),owner:u,sem:sm,course:+course.value,
+        meet:meet.value?+meet.value:null,title:t,desc:d,link:l,file:data,ts:Date.now()});
+      if(!st.set("lms_materi",all)){all.pop();fErr.textContent="Penyimpanan browser penuh. Hapus berkas lain atau pakai berkas lebih kecil.";btn.disabled=false;return}
+      render();
+    };
+    btn.disabled=true;
+    if(!f){save(null);return}
+    const r=new FileReader();
+    r.onload=()=>save({name:f.name,size:f.size,data:r.result});
+    r.onerror=()=>{fErr.textContent="Gagal membaca berkas.";btn.disabled=false};
+    r.readAsDataURL(f);
+  }},
+    h("div",{class:"row"},h("div",null,h("label",null,"Mata kuliah"),course),h("div",null,h("label",null,"Pertemuan"),meet)),
+    title,desc,link,
+    h("label",null,"Berkas materi (opsional, maks. 1 MB)"),file,
+    fErr,btn);
+  const shown=all.filter(m=>(m.sem||0)===sm&&(mc<0||m.course===mc)).sort((a,b)=>b.ts-a.ts);
+  const list=shown.length?shown.map(materiCard):[h("div",{class:"card empty"},sm?"Belum ada materi di folder ini. Posting materi pertamamu di atas.":"Folder ini kosong.")];
+  const head=h("div",{class:"line onbg",style:"margin:0 0 12px"},
+    h("button",{class:"btn ghost",onclick:()=>{sm=-1;mc=-1;render()}},"\u2190 Folder"),
+    h("b",null,sm?"Semester "+sm:"Tanpa semester"));
+  const top=sm?form:h("p",{class:"small onbg"},"Materi lama yang belum punya semester. Pindahkan ke folder semester lewat menu di tiap kartu.");
+  return h("div",null,head,chips,top,h("div",{style:"height:12px"}),list);
+}
+
+function materiCard(m){
+  let armed=false;
+  const del=h("button",{class:"btn ghost",onclick:()=>{
+    if(!armed){armed=true;del.textContent="Klik lagi untuk hapus";setTimeout(()=>{armed=false;del.textContent="Hapus"},3000);return}
+    st.set("lms_materi",st.get("lms_materi",[]).filter(x=>x.id!==m.id));render();
+  }},"Hapus");
+  const mv=h("select",{class:"mv","aria-label":"Pindahkan ke semester",onchange:ev=>{
+    const v=+ev.target.value;if(!v)return;
+    const all=st.get("lms_materi",[]),x=all.find(y=>y.id===m.id);
+    if(x){x.sem=v;st.set("lms_materi",all)}render();
+  }},h("option",{value:""},"Pindah ke…"),Array.from({length:8},(_,i)=>h("option",{value:i+1},"Semester "+(i+1))));
+  mv.value="";
+  return h("article",{class:"card item"},
+    h("div",{class:"meta"},
+      h("span",{class:"b"},COURSES[m.course]||"Lainnya"),
+      m.meet?h("span",{class:"b t"},"Pertemuan "+m.meet):null,
+      h("span",{class:"b t"},"Diposting "+new Date(m.ts).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"}))),
+    h("h3",null,m.title),
+    m.desc?h("p",{class:"desc"},m.desc):null,
+    m.link?h("div",{class:"small"},"Tautan: ",h("a",{href:m.link,target:"_blank",rel:"noopener noreferrer"},m.link)):null,
+    m.file?h("div",{class:"small"},"Berkas: ",h("a",{href:m.file.data,download:m.file.name},m.file.name)," ("+kb(m.file.size)+")"):null,
+    h("div",{class:"line"},mv,del));
+}
+
+function vTugas(u,tasks){
+  const chips=h("div",{class:"chips"},[-1,...COURSES.keys()].map(i=>
+    h("button",{class:"chip"+(tc===i?" on":""),onclick:()=>{tc=i;render()}},i<0?"Semua":COURSES[i])));
+  const fErr=h("p",{class:"err",role:"alert"});
+  const course=h("select",null,COURSES.map((c,i)=>h("option",{value:i},c)));
+  if(tc>=0)course.value=tc;
+  const title=h("input",{placeholder:"Judul tugas, misalnya Tugas Pertemuan 1",maxlength:"120"});
+  const meet=h("select",null,Array.from({length:MEET},(_,i)=>h("option",{value:i+1},"Pertemuan "+(i+1))));
+  const due=h("input",{type:"datetime-local",min:localDT(Date.now())});
+  const file=h("input",{type:"file"});
+  const btn=h("button",{class:"btn",type:"submit"},"Tambah tugas");
+  const add=h("form",{class:"card",onsubmit:e=>{
+    e.preventDefault();fErr.textContent="";
+    const t=title.value.trim(),f=file.files[0];
+    if(!t){fErr.textContent="Judul tugas wajib diisi.";return}
+    const dueMs=due.value?new Date(due.value).getTime():NaN;
+    if(isNaN(dueMs)){fErr.textContent="Tenggat waktu wajib diisi (tanggal dan jam).";return}
+    if(dueMs<=Date.now()){fErr.textContent="Tenggat harus setelah waktu sekarang.";return}
+    if(f&&f.size>MAXFILE){fErr.textContent="Ukuran berkas maksimal 1 MB.";return}
+    const save=data=>{
+      const all=st.get("lms_tasks",[]);
+      all.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),owner:u,course:+course.value,
+        meet:+meet.value,title:t,due:dueMs,lampiran:data,file:null,nilai:null,ts:Date.now()});
+      if(!st.set("lms_tasks",all)){all.pop();fErr.textContent="Penyimpanan browser penuh. Hapus berkas lain atau pakai berkas lebih kecil.";btn.disabled=false;return}
+      render();
+    };
+    btn.disabled=true;
+    if(!f){save(null);return}
+    const r=new FileReader();
+    r.onload=()=>save({name:f.name,size:f.size,data:r.result});
+    r.onerror=()=>{fErr.textContent="Gagal membaca berkas.";btn.disabled=false};
+    r.readAsDataURL(f);
+  }},
+    h("div",{class:"row"},h("div",null,h("label",null,"Mata kuliah"),course),h("div",null,h("label",null,"Pertemuan ke-"),meet)),
+    title,
+    h("label",null,"Tenggat waktu (tanggal dan jam)"),due,
+    h("label",null,"Sisipkan file tugas (opsional, maks. 1 MB)"),file,
+    fErr,btn);
+  const shown=tasks.filter(t=>tc<0||t.course===tc).sort((a,b)=>b.ts-a.ts);
+  const list=shown.length?shown.map(t=>taskCard(u,t)):[h("div",{class:"card empty"},"Belum ada tugas. Tambahkan tugas pertamamu di atas.")];
+  return h("div",null,chips,add,h("div",{style:"height:12px"}),list);
+}
+
+function patch(id,fn){const all=st.get("lms_tasks",[]),t=all.find(x=>x.id===id);if(t){fn(t);return st.set("lms_tasks",all)}return false}
+
+function taskCard(u,t){
+  const due=typeof t.due==="number"?t.due:null;
+  const closed=()=>due!==null&&Date.now()>due;
+  const CLOSED_MSG="Pengumpulan ditutup karena sudah melewati tenggat.";
+  let armed=false;
+  const msg=h("p",{class:"err",role:"alert"});
+  const del=h("button",{class:"btn ghost",onclick:()=>{
+    if(!armed){armed=true;del.textContent="Klik lagi untuk hapus";setTimeout(()=>{armed=false;del.textContent="Hapus"},3000);return}
+    st.set("lms_tasks",st.get("lms_tasks",[]).filter(x=>x.id!==t.id));render();
+  }},"Hapus");
+  const up=h("input",{type:"file",onclick:ev=>{if(closed()){ev.preventDefault();msg.textContent=CLOSED_MSG}},onchange:ev=>{
+    const f=ev.target.files[0];if(!f)return;
+    if(closed()){msg.textContent=CLOSED_MSG;ev.target.value="";return}
+    if(f.size>MAXFILE){msg.textContent="Ukuran berkas maksimal 1 MB.";ev.target.value="";return}
+    const r=new FileReader();
+    r.onload=()=>{
+      const prev=t.file;
+      const ok=patch(t.id,x=>{x.file={name:f.name,size:f.size,data:r.result,at:Date.now()}});
+      if(!ok){patch(t.id,x=>{x.file=prev});msg.textContent="Penyimpanan browser penuh. Hapus berkas lain atau pakai berkas lebih kecil.";return}
+      render();
+    };
+    r.onerror=()=>{msg.textContent="Gagal membaca berkas."};
+    r.readAsDataURL(f);
+  }});
+  const nilai=h("input",{class:"nilai",type:"number",min:"0",max:"100",placeholder:"Nilai",value:t.nilai==null?"":String(t.nilai),
+    onchange:ev=>{const v=ev.target.value===""?null:Math.min(100,Math.max(0,+ev.target.value));patch(t.id,x=>{x.nilai=v});render()}});
+  return h("article",{class:"card item"},
+    h("div",{class:"meta"},
+      h("span",{class:"b"},COURSES[t.course]||"Lainnya"),
+      t.meet?h("span",{class:"b t"},"Pertemuan "+t.meet):null,
+      h("span",{class:"b "+(t.file?"ok":closed()?"late":"t")},t.file?"Terkumpul":closed()?"Lewat tenggat":"Belum dikumpulkan"),
+      due!==null?h("span",{class:"b "+(closed()?"late":"t")},"Tenggat "+waktu(due)):null,
+      h("span",{class:"b t"},"Diposting "+waktu(t.ts))),
+    h("h3",null,t.title),
+    t.lampiran?h("div",{class:"small"},"Lampiran tugas: ",h("a",{href:t.lampiran.data,download:t.lampiran.name},t.lampiran.name)," ("+kb(t.lampiran.size)+")"):null,
+    t.file?h("div",{class:"small"},"Berkas dikumpulkan: ",h("a",{href:t.file.data,download:t.file.name},t.file.name)," ("+kb(t.file.size)+")"):null,
+    closed()
+      ?h("div",{class:"line"},h("span",{class:"btn pick off"},"Pengumpulan ditutup"),h("span",{class:"small"},"Sudah melewati tenggat"))
+      :h("div",{class:"line"},h("label",{class:"btn pick"},t.file?"Ganti file pengumpulan":"Kumpulkan file dari komputer",up),h("span",{class:"small"},"Maks. 1 MB, semua jenis file")),msg,
+    h("div",{class:"line"},nilai,h("span",{class:"small"},"/ 100"),del));
+}
+render();
+</script>
+</body>
+</html>
